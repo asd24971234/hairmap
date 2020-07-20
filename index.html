@@ -1,48 +1,845 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
   <head>
-    <meta charset="UTF-8">
-    <title>Hairmap by asd24971234</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hairmap</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+      crossorigin="anonymous"
+    />
+    <style>
+      .relative {
+        position: relative;
+      }
+      .cover-fit {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .d-flex {
+        display: flex;
+        align-items: center;
+        /* flex-wrap:wrap; */
+      }
+      .list-unstyled {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+      }
+      .container {
+        max-width: 960px;
+        margin: 0 auto;
+      }
+      /* <!----------header----------->  */
+      .logo {
+        max-width: 150px;
+        margin: 0 30px 0 20px;
+      }
+      .setting {
+        max-width: 50px;
+        margin-top: -25px;
+      }
+      .burger,
+      #burger {
+        display: none;
+      }
+
+      .burger > i {
+        line-height: 50px;
+        font-size: 25px;
+        color: rgb(146, 145, 145);
+      }
+      .right {
+        justify-content: space-between;
+      }
+      .header-menu {
+        height: 50px;
+      }
+      .header-menu li {
+        margin: 0 10px;
+      }
+      .header-menu a {
+        padding: 10px 10px;
+        text-decoration: none;
+        color: rgb(145, 143, 143);
+        border-bottom: 2px solid transparent;
+      }
+      .header-menu a:hover {
+        border-bottom: 2px solid gray;
+      }
+      .title-menu {
+        width: 40px;
+        height: 40px;
+        background: black;
+        background: url(pics_1129/setting.png) center center;
+        cursor: pointer;
+      }
+
+      @media screen and (max-width: 768px) {
+        .header-menu {
+          display: none;
+        }
+        .title-menu {
+          display: none;
+        }
+        .burger {
+          display: block;
+          cursor: pointer;
+        }
+
+        #burger:checked + .header-menu {
+          position: absolute;
+          display: block;
+          width: 50%;
+          right: 0px;
+          z-index: 10;
+          top: 45px;
+          text-align: center;
+          box-shadow: 1px 1px 3px black;
+        }
+        #burger:checked + .header-menu li {
+          width: 100%;
+          background-color: white;
+          margin: 0;
+          padding: 20px;
+          cursor: pointer;
+        }
+        #burger:checked + .header-menu li:hover {
+          background-color: lightblue;
+        }
+        #burger:checked + .header-menu li a:hover {
+          border-bottom: none;
+        }
+      }
+
+      /* <!----------nav----------->  */
+      nav {
+        height: 100%;
+      }
+      .nav-bgimg {
+        max-height: 400px;
+        object-position: center top;
+      }
+      .bg-color {
+        position: relative;
+        height: 400px;
+      }
+      .bg-color::after {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0.5;
+        content: "";
+        width: 100%;
+        height: 400px;
+        background-color: black;
+      }
+      .nav-box {
+        position: absolute;
+        top: 0;
+        /* left:50%; */
+        z-index: 1;
+        /* margin-left:-50px; */
+        width: 100%;
+      }
+      .shears-box {
+        text-align: center;
+        margin: 50px 0 0 0;
+      }
+      .shears {
+        width: 100px;
+        filter: brightness(200%);
+      }
+      .nav-box > h1 {
+        color: white;
+        font-weight: 300;
+        font-size: 2.3em;
+        font-family: "Noto Sans TC", sans-serif;
+        text-align: center;
+        margin: 0 0 10px 0;
+      }
+      .nav-box > p {
+        color: white;
+        text-align: center;
+        margin: 0;
+      }
+      .search {
+        padding: 5px;
+        max-width: 400px;
+        border: 2px solid pink;
+        margin: 50px auto;
+        justify-content: space-between;
+      }
+      .searchbar {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        margin-left: 10px;
+      }
+      #nav-select {
+        border: none;
+        outline: none;
+        background: transparent;
+        color: white;
+      }
+      .search input {
+        background: transparent;
+        border: none;
+        color: white;
+        border-left: 2px solid pink;
+        padding-left: 15px;
+        margin-left: 10px;
+        outline: none;
+      }
+      .search input::-webkit-input-placeholder {
+        color: white;
+      }
+      .mybutton {
+        background: rgb(180, 109, 109);
+        border: none;
+        color: white;
+        width: 90px;
+        cursor: pointer;
+        outline: none;
+        text-align: center;
+      }
+      .mybutton .d-flex {
+        width: 80px;
+        margin: 0 auto;
+      }
+      .mybutton p {
+        margin: 0px;
+      }
+      .nav-imgbox {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        /* position: absolute;
+            bottom:0; */
+        background-image: url(pics_1129/bg_icon.png);
+        justify-content: center;
+        /* z-index: 1; */
+        box-sizing: border-box;
+      }
+      .nav-imgbox img {
+        width: 75px;
+      }
+      .nav-imgbox figure {
+        margin: 30px 60px 20px;
+        color: white;
+        width: 120px;
+        text-align: center;
+      }
+      .fashion-box {
+        width: 75px !important;
+      }
+      @media screen and (max-width: 768px) {
+        .nav-imgbox {
+          flex-wrap: wrap;
+        }
+        .nav-imgbox figure {
+          width: 100%;
+        }
+        .search {
+          width: 300px;
+          flex-wrap: wrap;
+        }
+        .mybutton {
+          position: absolute;
+          bottom: -90%;
+          left: 0;
+          width: 100%;
+        }
+      }
+      /* <!----------main----------->  */
+      .main-content {
+        padding: 0 50px;
+        position: relative;
+        margin-bottom: 75px;
+        /* text-align: center; */
+      }
+      .main-content .title-content {
+        text-align: center;
+      }
+      .title-content h1 {
+        margin: 40px;
+        position: relative;
+        display: inline-block;
+      }
+      .title-content h1::after {
+        position: absolute;
+        width: 35px;
+        height: 100%;
+        padding: 0 0 5px 0;
+        left: 50%;
+        top: 0;
+        transform: translateX(-50%);
+        content: "";
+        border-bottom: 2px solid black;
+      }
+      .main-imgbox1 {
+        column-count: 4;
+        column-gap: 3%;
+      }
+      .main-img1 img {
+        height: 243.06px;
+      }
+      .main-img1 {
+        position: relative;
+      }
+      .main-img1 p {
+        position: absolute;
+        bottom: 3%;
+        right: 0;
+        background: rgba(255, 255, 255, 0.5);
+        border: 1px solid lightcoral;
+        padding: 5px 0;
+        box-sizing: border-box;
+        width: 120px;
+        text-align: center;
+        margin-right: -10px;
+        color: rgb(161, 96, 96);
+        font-weight: bold;
+      }
+      .main-imgbox2 {
+        column-count: 3;
+        column-gap: 2%;
+      }
+      .main-img2 {
+        text-align: center;
+      }
+      .main-img2 p {
+        color: white;
+        text-shadow: 1px 1px 1px black;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        /* width:100%; */
+        margin: 0;
+        transform: translate(-50%, -50%);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        font-weight: 600;
+      }
+      .main-text {
+        width: 100%;
+      }
+      .main-img2 img {
+        width: 100%;
+      }
+      .main-imgbox3 {
+        column-count: 4;
+        column-gap: 2%;
+      }
+      .main-img3 {
+        text-align: center;
+        overflow: hidden;
+        -webkit-column-break-inside: avoid;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      .main-img3 img {
+        border-radius: 50%;
+        width: 100%;
+      }
+      .main-img3 small {
+        display: block;
+        color: rgb(70, 68, 68);
+        margin: 5px;
+        font-weight: 600;
+      }
+      .main-img3 p {
+        position: absolute;
+        color: white;
+        text-shadow: 1px 1px 1px black;
+        font-weight: 900;
+        bottom: 20%;
+        left: 50%;
+        transform: translatex(-50%);
+      }
+      .more-btn {
+        position: absolute;
+        right: 0;
+        background: rgb(134, 82, 90);
+        border: 1px solid lightcoral;
+        outline: none;
+        color: white;
+        font-size: 1.2em;
+        padding: 0 10px;
+        margin-top: 5px;
+        cursor: pointer;
+      }
+      @media screen and (max-width: 768px) {
+        .main-imgbox1 {
+          column-count: 2;
+          column-gap: 2%;
+        }
+        .main-imgbox2 {
+          column-count: 1;
+          column-gap: 2%;
+        }
+        .main-imgbox3 {
+          column-count: 2;
+          column-gap: 2%;
+        }
+      }
+      /* <!----------footer----------->  */
+      .bg-footer {
+        background: rgb(206, 205, 205);
+      }
+      .footer-box1 {
+        justify-content: center;
+      }
+      .phones-box {
+        width: 180;
+      }
+      .phones {
+        width: 180px;
+      }
+      .footer-title h1 {
+        margin: 30px 0;
+      }
+      .footer-title p {
+        font-size: 14px;
+        margin: 0 0 0 5px;
+        color: rgb(124, 60, 60);
+      }
+      .footer-box2 {
+        border: 1px solid rgba(0, 0, 0, 0.274);
+        /* min-height: 200px;    */
+      }
+      .footer-box2::after {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0.5;
+        content: "";
+        width: 100%;
+        height: 100%;
+        background-color: black;
+      }
+      .slide1 {
+        filter: blur(2px);
+        height: 200px;
+      }
+      .footer-box2-contant {
+        position: absolute;
+        top: 0;
+        width: 100%;
+        justify-content: center;
+      }
+      .footer-box2-text1 {
+        text-align: center;
+        margin: 15px 0;
+        padding: 0 80px;
+        z-index: 1;
+      }
+      .footer-box2-text1:first-child {
+        border-right: 2px dashed gray;
+      }
+      .footer-box2-text1 h1 {
+        margin: 0;
+        color: white;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 4em;
+      }
+      .footer-box2-text1 p {
+        font-weight: 600;
+        color: rgb(216, 216, 216);
+        margin: 0;
+      }
+      .footer-box2-bottom {
+        position: absolute;
+        justify-content: center;
+        bottom: 0;
+        width: 100%;
+        z-index: 1;
+      }
+      .footer-box2-bottom h1 {
+        margin: 0 15px 20px 0;
+        color: #fff;
+      }
+      .footer-box2-bottom .title-content h1::after {
+        border-bottom: 2px solid white;
+      }
+      .footer-box2-bottom-btn button {
+        width: 140px;
+        padding: 10px 0;
+        background: #ddd;
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        cursor: pointer;
+      }
+      .footer-box3 {
+        width: 100%;
+        height: 150px;
+        padding: 0 70px;
+        box-sizing: border-box;
+        font-size: 12px;
+      }
+      .footer-box3-content {
+        margin: 10px 0 40px 0px;
+        /* padding:0 80px; */
+      }
+      .footer-logo {
+        width: 30px;
+      }
+      .footer-box3-title1 {
+        width: 370px;
+      }
+      .footer-box3-btn1 {
+        /* mawidth:160px; */
+        margin: 5px 10px;
+      }
+      .footer-box3-btn1 img {
+        width: 20px;
+        margin-bottom: -5px;
+      }
+      .footer-box3-btn1 button {
+        text-align: left;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+      }
+      .footer-box3-btn2 button {
+        background-color: transparent;
+        border: none;
+        outline: transparent;
+        cursor: pointer;
+      }
+      .footer-box3-btn2 button p {
+        color: rgb(196, 91, 131);
+        position: absolute;
+        left: 40%;
+        top: 30%;
+        margin: 0;
+      }
+      .footer-box3 hr {
+        border-color: #ccc;
+      }
+      .Reserved {
+        text-align: center;
+        margin-top: 20px;
+      }
+      @media screen and (max-width: 768px) {
+        .footer-title p {
+          display: none;
+        }
+        .phoen-apple {
+          text-align: center;
+        }
+        .footer-box2-contant {
+          flex-wrap: wrap;
+        }
+        .footer-box2-text1:first-child {
+          border-right: 2px dashed transparent;
+        }
+        .footer-box2-text1 {
+          width: 100%;
+        }
+        .footer-box2-text1 p {
+          color: white;
+        }
+        .slide1 {
+          height: 400px;
+        }
+        .footer-box2-bottom .title-content {
+          width: 100%;
+        }
+        .footer-box2-bottom {
+          text-align: center;
+          bottom: 4%;
+          flex-wrap: wrap;
+        }
+
+        .footer-box3 {
+          height: 100%;
+          padding: 0 20px 10px 10px;
+        }
+        .footer-box3-content {
+          flex-wrap: wrap;
+        }
+        .footer-box3-title1 {
+          width: 100%;
+        }
+        .footer-box3-content {
+          padding: 0;
+        }
+        .footer-box3-btn1 {
+          width: 100%;
+          /* column-count: 2;
+              column-gap: 100px; */
+        }
+        .footer-box3-btn1 button {
+          width: calc(50% - 12px);
+        }
+        .footer-box3-btn2 {
+          width: 100%;
+          text-align: center;
+        }
+
+        .Reserved {
+          margin: 0 auto;
+          margin-top: 10px;
+          text-align: center;
+          width: 220px;
+        }
+        .Reserved p {
+          margin: 0;
+        }
+      }
+    </style>
   </head>
   <body>
-    <section class="page-header">
-      <h1 class="project-name">Hairmap</h1>
-      <h2 class="project-tagline"></h2>
-      <a href="https://github.com/asd24971234/hairmap" class="btn">View on GitHub</a>
-      <a href="https://github.com/asd24971234/hairmap/zipball/master" class="btn">Download .zip</a>
-      <a href="https://github.com/asd24971234/hairmap/tarball/master" class="btn">Download .tar.gz</a>
-    </section>
+    <!----------header----------->
+    <header>
+      <div class="container d-flex right">
+        <div class="d-flex">
+          <div class="">
+            <img class="logo" src="pics_1129/logo.png" alt="" />
+          </div>
+          <input type="checkbox" id="burger" />
+          <ul class="header-menu list-unstyled d-flex">
+            <li><a href="">找髮型</a></li>
+            <li><a href="">找設計師</a></li>
+            <li><a href="">美髮誌</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="d-flex">
+            <ul class="header-menu list-unstyled d-flex">
+              <li><a href="">註冊</a></li>
+              <li><a href="">登入</a></li>
+            </ul>
+            <div class="title-menu"></div>
+            <label class="burger" for="burger"
+              ><i class="fas fa-bars"></i
+            ></label>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!----------nav----------->
+    <nav class="container">
+      <div class="container bg-color">
+        <img class="nav-bgimg cover-fit" src="images/long-hair.jpg" alt="" />
+        <div class="nav-box">
+          <div class="shears-box">
+            <img class="shears" src="images/logo_icon_g.svg" alt="" />
+          </div>
+          <h1>煩惱髮型嗎</h1>
+          <p>給你最多髮型靈感及在地優美設計師</p>
+          <div class="nav-search-box">
+            <div class="search d-flex relative">
+              <div class="d-flex">
+                <img
+                  class="searchbar"
+                  src="pics_1129/icon_searchbar_location.png"
+                  alt=""
+                />
+                <select name="address" id="nav-select">
+                  <option value="" selected hidden>找地區</option>
+                </select>
+                <input type="text" placeholder="搜尋髮型主題" />
+              </div>
+              <button class="mybutton">
+                <div class="d-flex">
+                  <img src="pics_1129/icon_searchbar_search.png" alt="" />
+                  <p>去逛逛</p>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-imgbox d-flex">
+        <figure>
+          <img src="pics_1129/icon_search.svg" alt="" />
+          <figcaption>在地設計師作品輕鬆找</figcaption>
+        </figure>
+        <figure class="fashion-box">
+          <img src="pics_1129/icon_fashion.svg" alt="" />
+          <figcaption>流行髮型一手掌握</figcaption>
+        </figure>
+        <figure>
+          <img src="pics_1129/icon_book.svg" alt="" />
+          <figcaption>即時溝通預約</figcaption>
+        </figure>
+      </div>
+    </nav>
+    <!----------main----------->
+    <div class="container">
+      <div class="relative main-content">
+        <div class="title-content">
+          <h1>熱門主題</h1>
+        </div>
+        <div class="main-imgbox1">
+          <div class="main-img1">
+            <img class="cover-fit" src="images/9345.jpg" alt="" />
+            <p>亞麻棕</p>
+          </div>
+          <div class="main-img1">
+            <img class="cover-fit" src="images/14366_18.jpg" alt="" />
+            <p>油頭</p>
+          </div>
+          <div class="main-img1">
+            <img class="cover-fit" src="images/22736_8.jpg" alt="" />
+            <p>玫瑰金</p>
+          </div>
+          <div class="main-img1">
+            <img class="cover-fit" src="images/9743_2.jpg" alt="" />
+            <p>大捲</p>
+          </div>
+        </div>
+        <div class="relative">
+          <button class="more-btn">more</button>
+        </div>
+        <div class="title-content">
+          <h1>人氣設計師</h1>
+        </div>
+        <div class="main-imgbox3">
+          <div class="main-img3 relative">
+            <img class="cover-fit" src="images/1.jpg" alt="" />
+            <p>青海</p>
+            <small>40則貼文</small>
+            <small>102人追蹤</small>
+          </div>
+          <div class="main-img3 relative">
+            <img class="cover-fit" src="images/2.jpg" alt="" />
+            <p>Lan Chao</p>
+            <small>55則貼文</small>
+            <small>233人追蹤</small>
+          </div>
+          <div class="main-img3 relative">
+            <img class="cover-fit" src="images/3.jpg" alt="" />
+            <p>阿毛</p>
+            <small>89則貼文</small>
+            <small>152人追蹤</small>
+          </div>
+          <div class="main-img3 relative">
+            <img class="cover-fit" src="images/4.jpg" alt="" />
+            <p>Ethan Chang</p>
+            <small>91則貼文</small>
+            <small>402人追蹤</small>
+          </div>
+        </div>
+        <div class="relative">
+          <button class="more-btn">more</button>
+        </div>
+        <div class="title-content">
+          <h1>趨勢話題</h1>
+        </div>
+        <div class="main-imgbox2">
+          <div class="main-img2 relative">
+            <img class="cover-fit" src="images/9344.jpg" alt="" />
+            <p class="main-text">
+              這款法式棕是最近在韓國很大勢的棕色髮色，不用漂髮色就相當漂亮
+            </p>
+          </div>
+          <div class="main-img2 relative">
+            <img class="cover-fit" src="images/11155.jpg" alt="" />
+            <p>令人百思不得其解的奇異型</p>
+          </div>
+          <div class="main-img2 relative">
+            <img class="cover-fit" src="images/138974.jpg" alt="" />
+            <p>銀河系染髮—「星空漸層紫」</p>
+          </div>
+        </div>
+        <div class="relative">
+          <button class="more-btn">more</button>
+        </div>
+      </div>
+    </div>
+    <!----------footer----------->
+    <footer>
+      <div class="container bg-footer">
+        <div class="footer-box1 d-flex">
+          <div class="phones-box">
+            <img class="phones" src="images/phones.png" alt="" />
+          </div>
+          <div class="footer-title">
+            <div class="title-content">
+              <h1>快速找到好髮型</h1>
+            </div>
+            <div class="phoen-apple">
+              <img src="pics_1129/btn_app_ios.png" alt="" />
+              <img src="pics_1129/btn_app_android.png" alt="" />
+            </div>
+            <p>下載並註冊後就可以開始發表作品囉!</p>
+          </div>
+        </div>
+        <div class="footer-box2 relative">
+          <img class="cover-fit slide1" src="images/slide1.jpg" alt="" />
+          <div class="footer-box2-title">
+            <div class="footer-box2-contant d-flex">
+              <div class="footer-box2-text1 relative">
+                <p class="footer-box2-top">已有</p>
+                <h1>635</h1>
+                <p>位設計師</p>
+              </div>
+              <div class="footer-box2-text1">
+                <p class="footer-box2-top">發表</p>
+                <h1>6421</h1>
+                <p>張髮型作品</p>
+              </div>
+            </div>
+            <div class="footer-box2-bottom d-flex">
+              <div class="title-content">
+                <h1 class="">優秀設計師募集中</h1>
+              </div>
+              <div class="footer-box2-bottom-btn">
+                <button>了解更多</button>
+                <button>立即免費註冊</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-box3">
+          <div class="footer-box3-content d-flex">
+            <div class="footer-box3-title1 d-flex">
+              <img class="footer-logo" src="images/logo_icon_g.svg" alt="" />
+              <p>
+                HairMap美髮地圖團隊致力於打造出最貼心實用的美髮資訊交流社群，讓美髮時光成為每個人生命中的美好時刻
+              </p>
+            </div>
+            <div class="footer-box3-btn1">
+              <div>
+                <button><img src="images/email.svg" alt="" />聯絡我們</button>
+                <button><img src="images/ios.svg" alt="" />iOS</button>
+              </div>
+              <div>
+                <button>
+                  <img src="images/facebook_g.svg" alt="" />粉絲專業
+                </button>
+                <button><img src="images/android.svg" alt="" />Android</button>
+              </div>
+            </div>
 
-    <section class="main-content">
-      <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
-<p>We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.</p>
-<h3>
-<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating pages manually</h3>
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-<p>You can @mention a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/defunkt/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/defunkt">@defunkt</a>), PJ Hyett (<a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/pjhyett/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/pjhyett">@pjhyett</a>), and Tom Preston-Werner (<a class="user-mention" data-hovercard-type="user" data-hovercard-url="/users/mojombo/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/mojombo">@mojombo</a>) founded GitHub.</p>
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
-
-      <footer class="site-footer">
-        <span class="site-footer-owner"><a href="https://github.com/asd24971234/hairmap">Hairmap</a> is maintained by <a href="https://github.com/asd24971234">asd24971234</a>.</span>
-
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
-      </footer>
-
-    </section>
-
-  
+            <div class="footer-box3-btn2">
+              <button class="relative">
+                <img src="pics_1129/btn_join.png" alt="" />
+                <p>設計師加入</p>
+              </button>
+            </div>
+          </div>
+          <hr />
+          <div class="Reserved">
+            <p class="">
+              Hairdodo Inc.&copy 2016. All Rights Reserved
+              使用者條款與隱私權政策
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>
